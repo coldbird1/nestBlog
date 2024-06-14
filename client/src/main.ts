@@ -1,5 +1,6 @@
-import './assets/main.css'
-
+import './assets/styles/index.scss'
+// 引入unocss原子化样式
+import 'virtual:uno.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
