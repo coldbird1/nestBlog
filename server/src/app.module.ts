@@ -6,21 +6,39 @@ import { AppService } from './app.service';
 import { CoffeesModule } from './coffees/coffees.module';
 import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
+import { AuthModule } from './auth/auth.module';
 import * as Joi from '@hapi/joi';
+
+import { NV_Users } from './auth/entities/auth.entity';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from './config/jwt.config';
+
 @Module({
   imports: [
     //Async将在最后加载
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
-        type: 'postgres',
-        host: process.env.DATABASE_HOST,
-        port: +process.env.DATABASE_PORT,
-        username: process.env.DATABASE_USERNAME,
-        password: process.env.DATABASE_PASSWORD,
-        database: process.env.DATABASE_NAME,
-        autoLoadEntities: true,
+        type: 'mysql', // 数据库类型
+        host: 'localhost', // 主机名
+        port: 3306, // 端口
+        username: 'root', // 用户名
+        password: 'root', // 密码
+        database: 'nestblog', // 数据库名称
         synchronize: true,
+        retryDelay: 500, //重试连接数据库间隔
+        retryAttempts: 10, //重试连接数据库的次数
+        autoLoadEntities: true, //如果为true,将自动加载实体 forFeature()方法注册的每个实体都将自动添加到配置对象的实体数组中
       }),
+      // useFactory: () => ({
+      //   type: 'postgres',
+      //   host: process.env.DATABASE_HOST,
+      //   port: +process.env.DATABASE_PORT,
+      //   username: process.env.DATABASE_USERNAME,
+      //   password: process.env.DATABASE_PASSWORD,
+      //   database: process.env.DATABASE_NAME,
+      //   autoLoadEntities: true,
+      //   synchronize: true,
+      // }),
     }),
     ConfigModule.forRoot({
       validationSchema: Joi.object({
@@ -30,6 +48,11 @@ import * as Joi from '@hapi/joi';
     }),
     CoffeesModule,
     CommonModule,
+    AuthModule,
+    JwtModule.register({
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: jwtConstants.expiresIn },
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
