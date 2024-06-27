@@ -9,11 +9,11 @@ import { CommonModule } from './common/common.module';
 import { AuthModule } from './auth/auth.module';
 import * as Joi from '@hapi/joi';
 
-import { NV_Users } from './auth/entities/auth.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './config/jwt.config';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
+
 @Module({
   imports: [
     //Async将在最后加载
@@ -57,6 +57,7 @@ import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
   ],
   controllers: [AppController],
   providers: [
+    //全局路由守卫
     AppService,
     {
       provide: APP_GUARD,

@@ -18,7 +18,9 @@ async function bootstrap() {
       },
     }),
   );
+  //全局配置错误过滤器
   app.useGlobalFilters(new HttpExceptionFilter());
+  //全局配置响应拦截器
   app.useGlobalInterceptors(
     new WrapResponseInterceptor(),
     new TimeoutInterceptor(),
