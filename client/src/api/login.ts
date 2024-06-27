@@ -6,7 +6,7 @@ interface LoginParams {
 }
 export const login = (params: LoginParams) => {
   return request({
-    url: '/login',
+    url: '/auth/login',
     method: 'post',
     data: params
   })

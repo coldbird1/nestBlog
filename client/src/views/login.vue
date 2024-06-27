@@ -4,7 +4,7 @@
       <h3 class="text-center">登录</h3>
       <el-form-item prop="username">
         <el-input v-model="loginForm.username" type="text" size="large" auto-complete="off" placeholder="账号">
-          <template #prefix><svg-icon icon-class="user" class="el-input__icon input-icon" /></template>
+          <!-- <template #prefix><svg-icon icon-class="user" class="el-input__icon input-icon" /></template> -->
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
@@ -51,7 +51,7 @@ const loginRules = {
 const handleLogin = () => {
   loginRef.value?.validate(async (valid) => {
     if (valid) {
-      login(loginForm).then((res) => {
+      login({ username: loginForm.username, password: loginForm.password }).then((res) => {
         router.push('/dashboard')
       }
       ).catch(() => {
