@@ -12,7 +12,8 @@ import * as Joi from '@hapi/joi';
 import { NV_Users } from './auth/entities/auth.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './config/jwt.config';
-
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 @Module({
   imports: [
     //Async将在最后加载
@@ -55,6 +56,12 @@ import { jwtConstants } from './config/jwt.config';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 export class AppModule {}
