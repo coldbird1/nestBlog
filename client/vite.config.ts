@@ -6,8 +6,6 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import UnoCSS from 'unocss/vite'
 // import VueDevTools from 'vite-plugin-vue-devtools'
 
-console.log(import.meta.url)
-
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -22,6 +20,7 @@ export default defineConfig({
     }
   },
   server: {
+    host: '0.0.0.0',
     open: true,
     proxy: {
       '/dev-api': {

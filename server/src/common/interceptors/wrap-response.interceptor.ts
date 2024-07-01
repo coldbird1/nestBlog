@@ -19,10 +19,21 @@ export class WrapResponseInterceptor implements NestInterceptor {
           originalCode >= 200 && originalCode < 300 ? 200 : originalCode;
         const statusCode = typeof code === 'number' ? code : HttpStatus.OK;
 
-        return {
-          code: statusCode,
-          data,
-        };
+        // 检查data是否为对象且包含msg属性
+        if (typeof data === 'object' && data !== null && 'msg' in data) {
+          const { msg, ...restData } = data; // 解构data，将msg分离出来
+          return {
+            code: statusCode,
+            msg, // 将msg放在外层
+            data: restData, // 剩余的data属性
+          };
+        } else {
+          // 如果data中没有msg，直接返回原data
+          return {
+            code: statusCode,
+            data,
+          };
+        }
       }),
     );
   }
