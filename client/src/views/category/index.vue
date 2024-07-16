@@ -1,9 +1,6 @@
 <template>
-  <div class="h-full w-full flex">
-    <SideBar></SideBar>
-    <div class="w-full">
-      <TopBar></TopBar>
-    </div>
+  <div class="mainContainer  h-full w-full overflow-y-auto">
+    分类
   </div>
 </template>
 

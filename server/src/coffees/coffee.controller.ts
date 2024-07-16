@@ -21,7 +21,6 @@ import { ApiTags } from '@nestjs/swagger';
 export class CoffeeController {
   constructor(private readonly coffeeService: CoffeeService) {}
 
-  @Public()
   @Get()
   findAll(@Query() paginationQueryDto: PaginationQueryDto) {
     return this.coffeeService.findAll(paginationQueryDto);

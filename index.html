@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const task1 = (t) => {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            console.log(t)
+            resolve(t)
+          }, 1000)
+        })
+      }
+      const task2 = () => {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            console.log(2)
+            resolve(2)
+          }, 2000)
+        })
+      }
+      const task3 = () => {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            console.log(3)
+            reject(3)
+          }, 1000)
+        })
+      }
+
+      class RetryTool {
+        map = {}
+        list = []
+        success = []
+        error = []
+        constructor(taskList, maxRetryNum = 3) {
+          this.maxRetryNum = maxRetryNum
+          this.list = taskList
+          this.list.forEach((fn, index) => {
+            const id = '_' + index
+            this.map[id] = fn
+            fn.id = id
+            fn.hasTry = 0
+            fn.retry = maxRetryNum
+          })
+        }
+
+        createPromise(fn) {
+          return new Promise((resolve, reject) => {
+            fn()
+              .then((res) => {
+                resolve({
+                  id: fn.id,
+                  value: res
+                })
+              })
+              .catch((err) => {
+                reject({
+                  id: fn.id,
+                  value: err
+                })
+              })
+          })
+        }
+
+        send() {
+          return new Promise((resolve, reject) => {
+            const _que = this.list.map((fn) => this.createPromise(fn))
+            const allSettledFn = () => {
+              Promise.allSettled(_que)
+                .then((res) => {
+                  _que.length = 0
+                  res.forEach((e) => {
+                    if (e.status === 'fulfilled') {
+                      this.success.push(e.value.value)
+                    } else {
+                      const _fn = this.map[e.reason.id]
+                      if (_fn.hasTry < _fn.retry) {
+                        _que.push(this.createPromise(_fn))
+                        _fn.hasTry++
+                      } else {
+                        this.error.push(e.reason)
+                      }
+                    }
+                  })
+                  if (_que.length > 0) {
+                    allSettledFn()
+                  } else {
+                    resolve({
+                      success: this.success,
+                      error: this.error
+                    })
+                  }
+                })
+                .catch((err) => {
+                  reject(err)
+                })
+            }
+            allSettledFn()
+          })
+        }
+      }
+
+      new RetryTool([task1.bind(undefined, 888), task2, task3], 5).send().then((res) => {
+        console.log(res)
+      })
+    </script>
+  </body>
+</html>

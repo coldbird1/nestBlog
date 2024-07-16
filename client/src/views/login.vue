@@ -26,11 +26,12 @@
 
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, getCurrentInstance } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import { useRouter } from 'vue-router'
 import useUserStore from '@/store/user'
-import { login } from '@/api/login';
+
+const { proxy }: any = getCurrentInstance()!
 const userStore = useUserStore()
 const router = useRouter()
 const loginRef = ref<FormInstance>()
@@ -51,11 +52,11 @@ const loginRules = {
 const handleLogin = () => {
   loginRef.value?.validate(async (valid) => {
     if (valid) {
-      login({ username: loginForm.username, password: loginForm.password }).then((res) => {
-        router.push('/dashboard')
+      userStore.login({ username: loginForm.username, password: loginForm.password }).then((res) => {
+        router.push('/index')
       }
-      ).catch(() => {
-
+      ).catch((err) => {
+        proxy?.$message.error(err)
       })
     }
   })
