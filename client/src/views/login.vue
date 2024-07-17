@@ -55,9 +55,7 @@ const handleLogin = () => {
       userStore.login({ username: loginForm.username, password: loginForm.password }).then((res) => {
         router.push('/index')
       }
-      ).catch((err) => {
-        proxy?.$message.error(err)
-      })
+      )
     }
   })
 }
