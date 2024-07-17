@@ -8,8 +8,6 @@ import 'nprogress/nprogress.css'
 const whiteList = ['/login']
 
 router.beforeEach((to, from, next) => {
-  console.log(NProgress)
-
   NProgress.start()
   if (getToken()) {
     // if (to.path === '/login') {

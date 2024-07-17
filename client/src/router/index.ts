@@ -4,6 +4,11 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/',
+      name: '',
+      redirect: '/index'
+    },
+    {
       path: '/login',
       name: 'login',
       // route level code-splitting
