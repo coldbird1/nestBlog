@@ -7,6 +7,8 @@ import { CoffeesModule } from './coffees/coffees.module';
 import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
 import { AuthModule } from './auth/auth.module';
+import { CategoryModule } from './category/category.module';
+
 import * as Joi from '@hapi/joi';
 
 import { JwtModule } from '@nestjs/jwt';
@@ -50,6 +52,7 @@ import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
     CoffeesModule,
     CommonModule,
     AuthModule,
+    CategoryModule,
     JwtModule.register({
       secret: jwtConstants.secret,
       signOptions: { expiresIn: jwtConstants.expiresIn },

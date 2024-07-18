@@ -1,10 +1,10 @@
 <template>
-  <div class="mainContainer  h-full w-full overflow-y-auto">
-    <div class="item">真</div>
-    <div class="item">的</div>
-    <div class="item">好</div>
-    <div class="item">烦</div>
-    <div class="item">啊</div>
+  <div class="mainContainer  mainWrapper">
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
     <div class="item"></div>
     <div class="item"></div>
     <div class="item"></div>
@@ -47,9 +47,7 @@ import TopBar from '@/components/topBar/index.vue'
 </script>
 
 <style scoped lang="scss">
-.mainContainer {
-  // height: calc(100vh - 50px);
-  width: 100%;
+.mainWrapper {
   padding: 20px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));

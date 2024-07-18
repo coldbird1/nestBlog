@@ -13,7 +13,7 @@ export class WrapResponseInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((data) => {
         //有封装好的返回内容则直接返回
-        if (data.response) {
+        if (data?.response) {
           return {
             code: data.response.statusCode,
             data: data.response.data,

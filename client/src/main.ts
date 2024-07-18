@@ -9,6 +9,10 @@ import locale from 'element-plus/es/locale/lang/zh-cn'
 import App from './App.vue'
 import router from './router'
 import '@/utils/permission'
+import plugins from '@/plugins'
+
+//elsvg图标
+import elementIcons from '@/components/svgIcon/svgicon'
 
 const app = createApp(App)
 
@@ -17,5 +21,7 @@ app.use(router)
 app.use(ElementPlus, {
   locale: locale
 })
+app.use(elementIcons)
+app.use(plugins)
 
 app.mount('#app')
