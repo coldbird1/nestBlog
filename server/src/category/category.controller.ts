@@ -7,6 +7,7 @@ import {
   Patch,
   Delete,
   Query,
+  Req,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -17,7 +18,6 @@ import { Public } from 'src/common/decorators/public.decorator';
 
 @ApiTags('category')
 @Controller('category')
-@Public()
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
   @Get('list')
@@ -26,7 +26,9 @@ export class CategoryController {
   }
 
   @Post('add')
-  create(@Body() createCategoryDto: CreateCategoryDto) {
+  create(@Body() createCategoryDto: CreateCategoryDto, @Req() request) {
+    console.log('name', request.username);
+
     return this.categoryService.create(createCategoryDto);
   }
 
