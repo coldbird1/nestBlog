@@ -55,13 +55,13 @@ const menuData = [
   }
 
   .menuItem:hover {
-    background: blue;
+    background: #5698c3;
     color: white;
 
   }
 
   .active {
-    background: blue;
+    background: #5698c3;
     color: white;
   }
 }
