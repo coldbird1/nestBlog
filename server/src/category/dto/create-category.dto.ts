@@ -7,7 +7,7 @@ export class CreateCategoryDto {
   name?: string;
 
   // 修改人，假设是一个用户ID，可以是可选的
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  updatedBy?: number;
+  updatedBy?: string;
 }

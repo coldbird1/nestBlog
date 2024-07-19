@@ -12,10 +12,12 @@
       </el-col>
     </el-row>
     <el-table ref="tableRef" :data="tableData" style="width: 100%" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" />
-      <el-table-column prop="name" label="名称" />
-      <el-table-column prop="createdBy" label="创建人" />
-      <el-table-column property="createdAt" label="创建时间" />
+      <el-table-column type="selection" width="55" align />
+      <el-table-column prop="name" label="名称" align="center" />
+      <el-table-column prop="createdBy" label="创建人" align="center" />
+      <el-table-column property="createdAt" label="创建时间" align="center" />
+      <el-table-column prop="updatedBy" label="修改人" align="center" />
+      <el-table-column property="updatedAt" label="修改时间" align="center" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)">修改</el-button>
@@ -53,23 +55,9 @@ interface Category {
 const tableData = ref<Category[]>()
 const tableRef = ref<InstanceType<typeof ElTable>>()
 const multipleSelection = ref<Category[]>([])
-const toggleSelection = (rows?: Category[]) => {
-  if (rows) {
-    rows.forEach((row) => {
-      // TODO: improvement typing when refactor table
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      tableRef.value!.toggleRowSelection(row, undefined)
-    })
-  } else {
-    tableRef.value!.clearSelection()
-  }
-}
 const handleSelectionChange = (val: Category[]) => {
   multipleSelection.value = val
 }
-
-
 
 const getList = async () => {
   const { data } = await listCategory(queryParams)

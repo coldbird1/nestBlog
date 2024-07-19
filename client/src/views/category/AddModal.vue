@@ -42,7 +42,7 @@
   </div>
 </template>
 
-<script setup name="categoryAddModel">
+<script setup name="categoryAddModel" lang="ts">
 import { getCurrentInstance, ref, computed } from 'vue'
 import { addCategory, updateCategory } from "@/api/category";
 

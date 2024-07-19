@@ -18,15 +18,15 @@ export class Category {
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
-  // 创建人，假设创建人是一个用户ID
+  // 创建人，假设创建人是一个用户账号
   @Column({ nullable: true })
-  createdBy: number | null;
+  createdBy: string | null;
 
   // 修改时间，TypeORM 会在每次更新时自动更新
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  // 修改人，同样假设是一个用户ID
+  // 创建人，假设创建人是一个用户账号
   @Column({ nullable: true })
-  updatedBy: number | null;
+  updatedBy: string | null;
 }

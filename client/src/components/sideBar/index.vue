@@ -1,7 +1,8 @@
 <template>
-  <div class=" sidebarBox w-200px  h-full overflow-hidden flex flex-col">
+  <div class=" sidebarBox  h-full overflow-hidden flex flex-col">
     <div class="titleBox w-full h-50px flex-shrink-0  text-20px font-600  flex justify-center items-center color-white">
-      nestBlog</div>
+      <span class="titleItem" v-for="(i, x) in title">{{ i }}</span>
+    </div>
     <ul class="menusBox flex-1 overflow-y-auto">
       <li v-for="(item, index) in menuData" :key="item.path"
         class="menuItem w-full h-60px  text-20px  flex justify-center items-center "
@@ -14,7 +15,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
 const route = useRoute()
-
+const title = 'nestBlog'
 const menuData = [
   {
     name: '首页',
@@ -63,5 +64,23 @@ const menuData = [
     background: blue;
     color: white;
   }
+}
+
+.titleItem {
+  color: white;
+  animation: colorChange 1.2s infinite alternate;
+}
+
+@keyframes colorChange {
+  to {
+    color: red;
+  }
+}
+
+@for $i from 1 through 20 {
+  .titleItem:nth-child(#{$i}) {
+    animation-delay: ($i - 1) * 0.2s;
+  }
+
 }
 </style>

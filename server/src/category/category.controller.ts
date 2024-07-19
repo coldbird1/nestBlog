@@ -14,8 +14,7 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { CategoryService } from './category.service';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
-import { Public } from 'src/common/decorators/public.decorator';
-
+import { Request } from 'express';
 @ApiTags('category')
 @Controller('category')
 export class CategoryController {
@@ -26,15 +25,29 @@ export class CategoryController {
   }
 
   @Post('add')
-  create(@Body() createCategoryDto: CreateCategoryDto, @Req() request) {
-    console.log('name', request.username);
-
-    return this.categoryService.create(createCategoryDto);
+  create(
+    @Body() createCategoryDto: CreateCategoryDto,
+    @Req() request: Request,
+  ) {
+    const mergeDto = {
+      ...createCategoryDto,
+      updatedBy: request.user?.username ?? 'null',
+      createdBy: request.user?.username ?? 'null',
+    };
+    return this.categoryService.create(mergeDto);
   }
 
   @Patch('update/:id')
-  update(@Param('id') id: number, @Body() updateCoffeeDto: UpdateCategoryDto) {
-    return this.categoryService.update(id, updateCoffeeDto);
+  update(
+    @Param('id') id: number,
+    @Body() updateCoffeeDto: UpdateCategoryDto,
+    @Req() request: Request,
+  ) {
+    const mergeDto = {
+      ...updateCoffeeDto,
+      updatedBy: request.user?.username ?? 'null',
+    };
+    return this.categoryService.update(id, mergeDto);
   }
 
   @Delete('delete/:id')
