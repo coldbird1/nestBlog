@@ -12,7 +12,7 @@
           </el-col> -->
           <el-col :span="18">
             <el-form-item label="名称" prop="name">
-              <el-input v-model="form.name" placeholder="请输入分类名称" />
+              <el-input v-model="form.name" placeholder="请输入分类名称" clearable />
             </el-form-item>
           </el-col>
           <!-- <el-col :span="12">
