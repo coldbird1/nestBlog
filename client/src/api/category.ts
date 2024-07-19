@@ -27,9 +27,10 @@ export const updateCategory = (params: any) => {
   })
 }
 
-export const delCategory = (id: number) => {
+export const delCategory = (params: any) => {
   return request({
-    url: '/category/delete/' + id,
-    method: 'delete'
+    url: '/category/deleteBatch',
+    method: 'delete',
+    data: params
   })
 }

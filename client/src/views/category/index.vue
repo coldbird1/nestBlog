@@ -5,13 +5,13 @@
         <el-button type="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="success" plain icon="Edit" @click="handleUpdate">修改</el-button>
+        <el-button type="success" plain icon="Edit" @click="handleUpdate" :disabled="!isSingle">修改</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="danger" plain icon="Delete" @click="handleDelete">删除</el-button>
+        <el-button type="danger" plain icon="Delete" @click="handleDelete()" :disabled="!isMultiple">删除</el-button>
       </el-col>
     </el-row>
-    <el-table ref="tableRef" :data="tableData" style="width: 100%" @selection-change="handleSelectionChange">
+    <el-table ref="tableRef" :data="tableData" style="width: 100%" stripe @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align />
       <el-table-column prop="name" label="名称" align="center" />
       <el-table-column prop="createdBy" label="创建人" align="center" />
@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { ElTable } from 'element-plus'
 import { listCategory, delCategory } from '@/api/category'
 import AddModal from './AddModal.vue';
@@ -42,7 +42,6 @@ const queryParams = ref({
   pageNum: 1,
   pageSize: 10
 })
-
 interface Category {
   id: number;
   name: string;
@@ -51,12 +50,14 @@ interface Category {
   updatedAt: Date;
   updatedBy: number | null;
 }
-
 const tableData = ref<Category[]>()
 const tableRef = ref<InstanceType<typeof ElTable>>()
-const multipleSelection = ref<Category[]>([])
+const ids = ref<number[]>([])
+const isMultiple = computed(() => ids.value.length > 0)
+const isSingle = computed(() => ids.value.length === 1)
+
 const handleSelectionChange = (val: Category[]) => {
-  multipleSelection.value = val
+  ids.value = val.map(item => item.id)
 }
 
 const getList = async () => {
@@ -73,8 +74,9 @@ const handleUpdate = (data: Category) => {
 }
 
 const handleDelete = (data: Category) => {
+  let selectIds = data ? [data?.id] : ids.value
   proxy.$modal.confirm('是否确认删除选中数据项？').then(function () {
-    delCategory(data.id).then(() => {
+    delCategory({ ids: selectIds }).then(() => {
       getList();
       proxy.$modal.msgSuccess("删除成功");
     }).catch(() => { });

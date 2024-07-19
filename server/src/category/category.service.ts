@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DataSource } from 'typeorm';
+import { Repository, DataSource, DeleteResult, In } from 'typeorm';
 import { Category } from './entities/category.entity';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -49,5 +49,10 @@ export class CategoryService {
   // 删除分类的方法
   async remove(id: number) {
     return await this.categoryRepository.delete(id);
+  }
+
+  /**批量删除 */
+  async removeBatch(ids: number[]): Promise<DeleteResult> {
+    return await this.categoryRepository.delete({ id: In(ids) });
   }
 }

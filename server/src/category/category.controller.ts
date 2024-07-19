@@ -54,4 +54,9 @@ export class CategoryController {
   delete(@Param('id') id: number) {
     return this.categoryService.remove(id);
   }
+
+  @Delete('deleteBatch')
+  batchDelete(@Body('ids') ids: number[]) {
+    return this.categoryService.removeBatch(ids);
+  }
 }
