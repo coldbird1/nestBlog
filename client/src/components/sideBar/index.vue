@@ -1,6 +1,6 @@
 <template>
   <div class=" sidebarBox  h-full overflow-hidden flex flex-col">
-    <div class="titleBox w-full h-50px flex-shrink-0  text-20px font-600  flex justify-center items-center color-white">
+    <div class="titleBox w-full h-50px flex-shrink-0  text-24px font-600  flex justify-center items-center color-white">
       <span class="titleItem" v-for="(i, x) in title">{{ i }}</span>
     </div>
     <ul class="menusBox flex-1 overflow-y-auto">
@@ -55,13 +55,13 @@ const menuData = [
   }
 
   .menuItem:hover {
-    background: #5698c3;
+    background: #2d2e36;
     color: white;
 
   }
 
   .active {
-    background: #5698c3;
+    background: #2d2e36;
     color: white;
   }
 }

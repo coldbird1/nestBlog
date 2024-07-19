@@ -58,7 +58,7 @@ import TopBar from '@/components/topBar/index.vue'
 }
 
 .item {
-  background-color: pink;
+  background-color: #1a94bc;
   font-size: 28px;
   display: flex;
   align-items: center;
