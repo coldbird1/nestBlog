@@ -11,6 +11,9 @@ importers:
       '@element-plus/icons-vue':
         specifier: ^2.3.1
         version: 2.3.1(vue@3.4.27(typescript@5.4.5))
+      '@tinymce/tinymce-vue':
+        specifier: ^6.0.1
+        version: 6.0.1(vue@3.4.27(typescript@5.4.5))
       '@types/nprogress':
         specifier: ^0.2.3
         version: 0.2.3
@@ -32,6 +35,9 @@ importers:
       sass:
         specifier: ^1.77.5
         version: 1.77.5
+      tinymce:
+        specifier: ^7.2.1
+        version: 7.2.1
       vue:
         specifier: ^3.4.21
         version: 3.4.27(typescript@5.4.5)
@@ -645,6 +651,11 @@ packages:
 
   '@sxzz/popperjs-es@2.11.7':
     resolution: {integrity: sha512-Ccy0NlLkzr0Ex2FKvh2X+OyERHXJ88XJ1MXtsI9y9fGexlaXaVTPzBCRBwIxFkORuOb+uBqeu+RqnpgYTEZRUQ==, tarball: https://registry.npmmirror.com/@sxzz/popperjs-es/-/popperjs-es-2.11.7.tgz}
+
+  '@tinymce/tinymce-vue@6.0.1':
+    resolution: {integrity: sha512-VzjI8AKlNrrsosIk3WuBez6kubqPsPMeaButkRLuts77uo4e2EwPRFX+VyB6fHbMGHwUPK22zNjOUGMvJFZFCw==, tarball: https://registry.npmmirror.com/@tinymce/tinymce-vue/-/tinymce-vue-6.0.1.tgz}
+    peerDependencies:
+      vue: ^3.0.0
 
   '@tsconfig/node20@20.1.4':
     resolution: {integrity: sha512-sqgsT69YFeLWf5NtJ4Xq/xAF8p4ZQHlmGW74Nu2tD4+g5fAsposc4ZfaaPixVu4y01BEiDCWLRDCvDM5JOsRxg==}
@@ -2147,6 +2158,9 @@ packages:
   tinybench@2.8.0:
     resolution: {integrity: sha512-1/eK7zUnIklz4JUUlL+658n58XO2hHLQfSk1Zf2LKieUjxidN16eKFEoDEfjHc3ohofSSqK3X5yO6VGb6iW8Lw==}
 
+  tinymce@7.2.1:
+    resolution: {integrity: sha512-ADd1cvdIuq6NWyii0ZOZRuu+9sHIdQfcRNWBcBps2K8vy7OjlRkX6iw7zz1WlL9kY4z4L1DvIP+xOrVX/46aHA==, tarball: https://registry.npmmirror.com/tinymce/-/tinymce-7.2.1.tgz}
+
   tinypool@0.8.4:
     resolution: {integrity: sha512-i11VH5gS6IFeLY3gMBQ00/MmLncVP7JLXOw1vlgkytLmJK7QnEr7NXf0LBdxfmNPAeyetukOk0bOYrJrFGjYJQ==}
     engines: {node: '>=14.0.0'}
@@ -2971,6 +2985,11 @@ snapshots:
   '@sinclair/typebox@0.27.8': {}
 
   '@sxzz/popperjs-es@2.11.7': {}
+
+  '@tinymce/tinymce-vue@6.0.1(vue@3.4.27(typescript@5.4.5))':
+    dependencies:
+      tinymce: 7.2.1
+      vue: 3.4.27(typescript@5.4.5)
 
   '@tsconfig/node20@20.1.4': {}
 
@@ -4629,6 +4648,8 @@ snapshots:
   text-table@0.2.0: {}
 
   tinybench@2.8.0: {}
+
+  tinymce@7.2.1: {}
 
   tinypool@0.8.4: {}
 

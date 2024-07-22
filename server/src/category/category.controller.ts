@@ -21,8 +21,6 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
   @Get('list')
   findAll(@Query() paginationQueryDto: PaginationQueryDto) {
-    console.log(paginationQueryDto);
-
     return this.categoryService.findAll(paginationQueryDto);
   }
 
@@ -33,8 +31,8 @@ export class CategoryController {
   ) {
     const mergeDto = {
       ...createCategoryDto,
-      updatedBy: request.user?.username ?? 'null',
-      createdBy: request.user?.username ?? 'null',
+      updatedBy: request.user?.username,
+      createdBy: request.user?.username,
     };
     return this.categoryService.create(mergeDto);
   }
@@ -47,7 +45,7 @@ export class CategoryController {
   ) {
     const mergeDto = {
       ...updateCoffeeDto,
-      updatedBy: request.user?.username ?? 'null',
+      updatedBy: request.user?.username,
     };
     return this.categoryService.update(id, mergeDto);
   }
