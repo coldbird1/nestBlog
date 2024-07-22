@@ -42,6 +42,8 @@ import { ElTable } from 'element-plus'
 import { listCategory, delCategory } from '@/api/category'
 import AddModal from './AddModal.vue';
 import { getCurrentInstance } from 'vue'
+import type { Category } from './types'
+
 const { proxy } = getCurrentInstance()
 
 const queryParams = ref({
@@ -50,14 +52,7 @@ const queryParams = ref({
 })
 const total = ref(0)
 
-interface Category {
-  id: number;
-  name: string;
-  createdAt: Date;
-  createdBy: number | null;
-  updatedAt: Date;
-  updatedBy: number | null;
-}
+
 const tableData = ref<Category[]>()
 const tableRef = ref<InstanceType<typeof ElTable>>()
 const ids = ref<number[]>([])
@@ -65,7 +60,7 @@ const isMultiple = computed(() => ids.value.length > 0)
 const isSingle = computed(() => ids.value.length === 1)
 
 const handleSelectionChange = (val: Category[]) => {
-  ids.value = val.map(item => item.id)
+  ids.value = val.map(item => item.id!)
 }
 
 const getList = async () => {
@@ -79,10 +74,10 @@ const handleAdd = () => {
 }
 
 const handleUpdate = (data: Category) => {
-  proxy.$refs.addModelRef.open(data)
+  proxy.$refs.addModelRef.open({ ...data })
 }
 
-const handleDelete = (data: Category) => {
+const handleDelete = (data: Category | null = null) => {
   let selectIds = data ? [data?.id] : ids.value
   proxy.$modal.confirm('是否确认删除选中数据项？').then(function () {
     delCategory({ ids: selectIds }).then(() => {

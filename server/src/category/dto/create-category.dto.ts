@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNumber } from 'class-validator';
+import { IsString, IsOptional, IsNumber, IsDate } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateCategoryDto {
@@ -6,8 +6,13 @@ export class CreateCategoryDto {
   @IsOptional()
   name?: string;
 
-  // 修改人，假设是一个用户ID，可以是可选的
+  // 修改人
   @IsString()
   @IsOptional()
   updatedBy?: string;
+
+  // 创建人
+  @IsString()
+  @IsOptional()
+  createdBy?: string;
 }

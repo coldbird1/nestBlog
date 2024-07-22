@@ -6,26 +6,33 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  Req,
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { Public } from 'src/common/decorators/public.decorator';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { Request } from 'express';
 @Controller('article')
 @Public()
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
 
   @Post()
-  create(@Body() createArticleDto: CreateArticleDto) {
-    return this.articleService.create(createArticleDto);
+  create(@Body() createArticleDto: CreateArticleDto, @Req() request: Request) {
+    const mergeDto = {
+      ...createArticleDto,
+      updatedBy: request.user?.username,
+      createdBy: request.user?.username,
+    };
+    return this.articleService.create(mergeDto);
   }
 
   @Get()
-  findAll() {
-    console.log('xxx');
-
-    return this.articleService.findAll();
+  findAll(@Query() paginationQueryDto: PaginationQueryDto) {
+    return this.articleService.findAll(paginationQueryDto);
   }
 
   @Get(':id')

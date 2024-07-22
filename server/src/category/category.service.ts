@@ -20,6 +20,9 @@ export class CategoryService {
     const categories = await this.categoryRepository.find({
       skip: (pageNum - 1) * pageSize,
       take: pageSize,
+      order: {
+        updatedAt: 'DESC',
+      },
     });
     return {
       rows: categories,
