@@ -24,9 +24,10 @@
           <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
-
     </el-table>
-    <AddModal ref="addModelRef" @submit="getList"></AddModal>
+    <!-- <Pagination></Pagination> -->
+    <AddModal ref="addModelRef" @submit="getList">
+    </AddModal>
   </div>
 
 </template>
@@ -37,6 +38,7 @@ import { ElTable } from 'element-plus'
 import { listCategory, delCategory } from '@/api/category'
 import AddModal from './AddModal.vue';
 import { getCurrentInstance } from 'vue'
+import Pagination from '@/components/pagination/index.vue'
 const { proxy } = getCurrentInstance()
 const queryParams = ref({
   pageNum: 1,

@@ -19,7 +19,6 @@ export default class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(payload: JwtPayload) {
-    console.log(payload.username);
     const { username } = payload;
     return {
       username,
