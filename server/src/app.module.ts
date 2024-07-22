@@ -44,12 +44,12 @@ import { ArticleModule } from './article/article.module';
       //   synchronize: true,
       // }),
     }),
-    ConfigModule.forRoot({
-      validationSchema: Joi.object({
-        DATABASE_HOST: Joi.required(),
-        DATABASE_PORT: Joi.number().default(5432),
-      }),
-    }),
+    // ConfigModule.forRoot({
+    //   validationSchema: Joi.object({
+    //     DATABASE_HOST: Joi.required(),
+    //     DATABASE_PORT: Joi.number().default(5432),
+    //   }),
+    // }),
     CoffeesModule,
     CommonModule,
     AuthModule,

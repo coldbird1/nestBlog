@@ -6,7 +6,7 @@
 
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, onBeforeUnmount } from 'vue'
 import tinymce from 'tinymce'
 
 const initObj = {
@@ -20,9 +20,13 @@ const initObj = {
   plugins: "image code table"
 }
 
-onMounted(() => {
-  tinymce.init(initObj)
+onMounted(async () => {
+  await tinymce.init(initObj)
 })
+
+onBeforeUnmount(() => {
+  tinymce.remove();
+});
 </script>
 
 <style scoped lang="scss">

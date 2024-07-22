@@ -15,7 +15,7 @@
       <el-table-column type="selection" width="55" align />
       <el-table-column prop="title" label="标题" align="center" show-overflow-tooltip />
       <el-table-column prop="categoryName" label="分类" align="center" show-overflow-tooltip />
-      <el-table-column prop="authorName" label="作者" align="" show-overflow-tooltip />
+      <el-table-column prop="authorName" label="作者" align="center" show-overflow-tooltip />
       <el-table-column property="createdAt" label="创建时间" align="center" show-overflow-tooltip />
       <el-table-column property="updatedAt" label="修改时间" align="center" show-overflow-tooltip />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200">
