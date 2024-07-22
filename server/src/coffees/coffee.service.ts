@@ -21,12 +21,12 @@ export class CoffeeService {
   ) {}
 
   findAll(PaginationQueryDto: PaginationQueryDto) {
-    const { limit, offset } = PaginationQueryDto;
-    return this.coffeeRepository.find({
-      relations: ['flavors'],
-      skip: offset,
-      take: limit,
-    });
+    // const { limit, offset } = PaginationQueryDto;
+    // return this.coffeeRepository.find({
+    //   relations: ['flavors'],
+    //   skip: offset,
+    //   take: limit,
+    // });
   }
 
   async findOne(id: number) {

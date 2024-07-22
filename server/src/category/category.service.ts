@@ -12,12 +12,19 @@ export class CategoryService {
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>,
   ) {}
-  findAll(PaginationQueryDto: PaginationQueryDto) {
-    const { limit, offset } = PaginationQueryDto;
-    return this.categoryRepository.find({
-      skip: offset,
-      take: limit,
+  async findAll(paginationQueryDto: PaginationQueryDto) {
+    const { pageNum = 1, pageSize = 0 } = paginationQueryDto;
+    // 查询总数
+    const total = await this.categoryRepository.count();
+    //根据当前分页查询
+    const categories = await this.categoryRepository.find({
+      skip: (pageNum - 1) * pageSize,
+      take: pageSize,
     });
+    return {
+      rows: categories,
+      total,
+    };
   }
 
   async create(createCategoryDto: CreateCategoryDto) {

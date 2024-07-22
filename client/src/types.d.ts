@@ -6,3 +6,7 @@ declare module '@vue/runtime-core' {
     $message: (...args: any[]) => void
   }
 }
+
+interface ComponentInternalInstance {
+  proxy: ComponentPublicInstance
+}

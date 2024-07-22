@@ -21,6 +21,8 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
   @Get('list')
   findAll(@Query() paginationQueryDto: PaginationQueryDto) {
+    console.log(paginationQueryDto);
+
     return this.categoryService.findAll(paginationQueryDto);
   }
 

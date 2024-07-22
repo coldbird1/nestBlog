@@ -13,11 +13,11 @@
     </el-row>
     <el-table ref="tableRef" :data="tableData" style="width: 100%" stripe @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align />
-      <el-table-column prop="name" label="名称" align="center" />
-      <el-table-column prop="createdBy" label="创建人" align="center" />
-      <el-table-column property="createdAt" label="创建时间" align="center" />
-      <el-table-column prop="updatedBy" label="修改人" align="center" />
-      <el-table-column property="updatedAt" label="修改时间" align="center" />
+      <el-table-column prop="name" label="名称" align="center" show-overflow-tooltip />
+      <el-table-column prop="createdBy" label="创建人" align="center" show-overflow-tooltip />
+      <el-table-column property="createdAt" label="创建时间" align="center" show-overflow-tooltip />
+      <el-table-column prop="updatedBy" label="修改人" align="center" show-overflow-tooltip />
+      <el-table-column property="updatedAt" label="修改时间" align="center" show-overflow-tooltip />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200">
         <template #default="scope">
           <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)">修改</el-button>
@@ -25,7 +25,11 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- <Pagination></Pagination> -->
+    <div class="paginationContainer">
+      <el-pagination v-model:current-page="queryParams.pageNum" v-model:page-size="queryParams.pageSize"
+        :page-sizes="[10, 20, 50, 100]" size="default" layout="total, sizes, prev, pager, next, jumper" :total="total"
+        @size-change="getList" @current-change="getList" />
+    </div>
     <AddModal ref="addModelRef" @submit="getList">
     </AddModal>
   </div>
@@ -38,12 +42,14 @@ import { ElTable } from 'element-plus'
 import { listCategory, delCategory } from '@/api/category'
 import AddModal from './AddModal.vue';
 import { getCurrentInstance } from 'vue'
-import Pagination from '@/components/pagination/index.vue'
 const { proxy } = getCurrentInstance()
+
 const queryParams = ref({
   pageNum: 1,
-  pageSize: 10
+  pageSize: 10,
 })
+const total = ref(0)
+
 interface Category {
   id: number;
   name: string;
@@ -63,8 +69,9 @@ const handleSelectionChange = (val: Category[]) => {
 }
 
 const getList = async () => {
-  const { data } = await listCategory(queryParams)
-  tableData.value = data
+  const { data } = await listCategory(queryParams.value)
+  tableData.value = data.rows
+  total.value = data.total
 }
 
 const handleAdd = () => {

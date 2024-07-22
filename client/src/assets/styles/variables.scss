@@ -7,5 +7,9 @@ $topBar-color: #101f30;
   overflow: auto;
 }
 
-.pagination-container {
+.paginationContainer {
+  display: flex;
+  justify-content: end;
+  height: 80px;
+  align-items: center;
 }

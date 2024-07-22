@@ -8,7 +8,7 @@ export const listCategory = (params: any) => {
   return request({
     url: '/category/list',
     method: 'get',
-    data: params
+    params: params
   })
 }
 export const addCategory = (params: any) => {
