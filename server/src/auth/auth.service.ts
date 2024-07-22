@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { NV_Users } from './entities/auth.entity';
+import { User } from './entities/auth.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcryptjs from 'bcryptjs';
@@ -9,7 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(NV_Users) private readonly user: Repository<NV_Users>,
+    @InjectRepository(User) private readonly user: Repository<User>,
     private readonly JwtService: JwtService,
   ) {}
 

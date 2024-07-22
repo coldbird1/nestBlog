@@ -15,6 +15,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './config/jwt.config';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
+import { ArticleModule } from './article/article.module';
 
 @Module({
   imports: [
@@ -57,6 +58,7 @@ import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
       secret: jwtConstants.secret,
       signOptions: { expiresIn: jwtConstants.expiresIn },
     }),
+    ArticleModule,
   ],
   controllers: [AppController],
   providers: [
