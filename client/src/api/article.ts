@@ -2,14 +2,14 @@ import request from '@/utils/request'
 
 export const listArticle = (params: any) => {
   return request({
-    url: '/article',
+    url: '/article/list',
     method: 'get',
     params: params
   })
 }
-export const addCategory = (params: any) => {
+export const addArticle = (params: any) => {
   return request({
-    url: '/category/add',
+    url: '/article/add',
     method: 'post',
     data: params
   })

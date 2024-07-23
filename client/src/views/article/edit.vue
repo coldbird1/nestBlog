@@ -23,12 +23,14 @@
 
 <script setup name="categoryAddModel" lang="ts">
 import { getCurrentInstance, ref, computed, onMounted, onBeforeUnmount } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import tinymce from 'tinymce'
 import { listCategory } from "@/api/category";
+import { addArticle } from "@/api/article";
 import type { Article } from './types'
 import type { Category } from '@/views/category/types'
 const route = useRoute()
+const router = useRouter()
 const articleId = ref(route.params.id)
 const { proxy } = getCurrentInstance()
 const isEdit = ref(false)
@@ -59,18 +61,18 @@ const submitForm = () => {
         // })
       } else {
         console.log(form.value);
-
-        // addCategory(form.value).then((response) => {
-        //   proxy.$modal.msgSuccess('新增成功')
-        //   emit('submit')
-        // })
+        addArticle(form.value).then((response) => {
+          proxy.$modal.msgSuccess('新增成功')
+          router.replace('/article')
+        })
       }
     }
   })
 }
 
 const onClose = () => {
-
+  //返回上一个页面
+  router.go(-1)
 }
 
 const initObj = {

@@ -20,17 +20,18 @@ import { Request } from 'express';
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
 
-  @Post()
+  @Post('add')
   create(@Body() createArticleDto: CreateArticleDto, @Req() request: Request) {
     const mergeDto = {
       ...createArticleDto,
       updatedBy: request.user?.username,
       createdBy: request.user?.username,
+      author: request.user?.userid,
     };
     return this.articleService.create(mergeDto);
   }
 
-  @Get()
+  @Get('list')
   findAll(@Query() paginationQueryDto: PaginationQueryDto) {
     return this.articleService.findAll(paginationQueryDto);
   }

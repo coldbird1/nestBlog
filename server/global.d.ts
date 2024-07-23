@@ -5,7 +5,7 @@ declare global {
   namespace Express {
     // 扩展 Request 接口，添加自定义的 user 属性
     interface Request {
-      user?: { username: string }; // 注意这里使用了 ? 表示 user 可能是 undefined
+      user?: { username: string; userid: number }; // 注意这里使用了 ? 表示 user 可能是 undefined
     }
   }
 }

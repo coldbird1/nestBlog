@@ -41,7 +41,7 @@ export class AuthService {
     );
     // 密码不正确
     if (!compareRes) return new BadRequestException('密码不正确');
-    const payload = { username: findUser.username };
+    const payload = { username: findUser.username, userid: findUser.id };
 
     return {
       access_token: this.JwtService.sign(payload),

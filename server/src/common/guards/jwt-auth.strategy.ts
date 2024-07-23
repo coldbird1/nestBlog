@@ -4,6 +4,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { jwtConstants } from '../../config/jwt.config';
 
 export interface JwtPayload {
+  userid: number;
   username: string;
 }
 
@@ -19,9 +20,10 @@ export default class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(payload: JwtPayload) {
-    const { username } = payload;
+    const { username, userid } = payload;
     return {
       username,
+      userid,
     };
   }
 }
