@@ -53,6 +53,7 @@ const handleLogin = () => {
   loginRef.value?.validate(async (valid) => {
     if (valid) {
       userStore.login({ username: loginForm.username, password: loginForm.password }).then((res) => {
+        proxy.$message.success('登录成功')
         router.push('/index')
       }
       )

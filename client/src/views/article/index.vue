@@ -30,28 +30,26 @@
         :page-sizes="[10, 20, 50, 100]" size="default" layout="total, sizes, prev, pager, next, jumper" :total="total"
         @size-change="getList" @current-change="getList" />
     </div>
-    <AddModal ref="addModelRef" @submit="getList">
-    </AddModal>
+
   </div>
 
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref, computed, getCurrentInstance } from 'vue'
 import { ElTable } from 'element-plus'
 import { listArticle, delCategory } from '@/api/article'
-import AddModal from './AddModal.vue';
-import { getCurrentInstance } from 'vue'
+import { useRouter } from 'vue-router'
 import type { Article } from './types'
 
 const { proxy } = getCurrentInstance()
+const router = useRouter()
 
 const queryParams = ref({
   pageNum: 1,
   pageSize: 10,
 })
 const total = ref(0)
-
 
 const tableData = ref<Article[]>()
 const tableRef = ref<InstanceType<typeof ElTable>>()
@@ -70,7 +68,7 @@ const getList = async () => {
 }
 
 const handleAdd = () => {
-  proxy.$refs.addModelRef.open()
+  router.push({ path: '/article/edit' })
 }
 
 const handleUpdate = (data: Article) => {

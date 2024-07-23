@@ -6,7 +6,7 @@
     <ul class="menusBox flex-1 overflow-y-auto">
       <li v-for="(item, index) in menuData" :key="item.path"
         class="menuItem w-full h-60px  text-20px  flex justify-center items-center "
-        :class="{ 'active': route.path === item.path }" @click="$router.push(item.path)">
+        :class="{ 'active': route.path.includes(item.path) }" @click="$router.push(item.path)">
         {{ item.name }}
       </li>
     </ul>
