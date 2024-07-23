@@ -23,14 +23,25 @@ export class ArticleService {
     let { pageNum = 1, pageSize } = paginationQueryDto;
     // 查询总数
     const total = await this.articleRepository.count();
-    //根据当前分页查询
-    const categories = await this.articleRepository.find({
-      skip: (pageNum - 1) * pageSize,
-      take: pageSize,
-      order: {
-        updatedAt: 'DESC',
-      },
-    });
+
+    const queryBuilder = this.articleRepository
+      .createQueryBuilder('article') // 定义article为Article实体的别名
+      .leftJoinAndSelect('article.user', 'user')
+      .leftJoinAndSelect('article.category', 'category')
+      .select([
+        'article.id as id',
+        'article.title as title',
+        'article.updatedAt as updatedAt',
+        'article.createdAt as createdAt',
+        'user.username as userName',
+        'category.name as categoryName',
+      ])
+      .orderBy('article.updatedAt', 'DESC')
+      .skip((pageNum - 1) * pageSize)
+      .take(pageSize);
+
+    const categories = await queryBuilder.getRawMany();
+
     return {
       rows: categories,
       total,
