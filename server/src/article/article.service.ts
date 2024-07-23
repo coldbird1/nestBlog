@@ -49,8 +49,21 @@ export class ArticleService {
   }
 
   async findOne(id: number): Promise<Article | undefined> {
-    // 使用findOneBy方法查找分类
-    return await this.articleRepository.findOneBy({ id });
+    const article = await this.articleRepository
+      .createQueryBuilder('article')
+      .leftJoinAndSelect('article.user', 'user') // 加载User实体
+      .leftJoinAndSelect('article.category', 'category') // 加载Category实体
+      .where('article.id = :id', { id })
+      .getOne();
+    if (article) {
+      Object.assign(article, {
+        userId: article.user.id,
+        categoryId: article.category.id,
+      });
+      delete article.user;
+      delete article.category;
+    }
+    return article;
   }
 
   update(id: number, updateArticleDto: UpdateArticleDto) {

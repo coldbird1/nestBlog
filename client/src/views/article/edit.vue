@@ -5,7 +5,7 @@
       <el-form-item label="标题" prop="title" class="flex justify-center">
         <el-input v-model="form.title" placeholder="请输入标题" clearable />
       </el-form-item>
-      <el-form-item label="分类" prop="category">
+      <el-form-item label="分类" prop="categoryId">
         <el-select v-model="form.categoryId" plplaceholder="请选择分类">
           <el-option v-for="item in categoryOptions" :key="item.id" :label="item.name" :value="item.id" />
         </el-select>
@@ -26,12 +26,13 @@ import { getCurrentInstance, ref, computed, onMounted, onBeforeUnmount } from 'v
 import { useRoute, useRouter } from 'vue-router'
 import tinymce from 'tinymce'
 import { listCategory } from "@/api/category";
-import { addArticle } from "@/api/article";
+import { addArticle, queryArticle } from "@/api/article";
 import type { Article } from './types'
 import type { Category } from '@/views/category/types'
 const route = useRoute()
 const router = useRouter()
-const articleId = ref(route.params.id)
+
+
 const { proxy } = getCurrentInstance()
 const isEdit = ref(false)
 const title = computed(() => isEdit.value ? '修改文章' : '新增文章')
@@ -90,6 +91,11 @@ const initObj = {
 
 onMounted(async () => {
   await tinymce.init(initObj)
+  const articleId: string = route.params.id as string
+  if (articleId) {
+    isEdit.value = true
+    const data = await queryArticle(articleId)
+  }
 })
 
 onBeforeUnmount(() => {

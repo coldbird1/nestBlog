@@ -7,6 +7,14 @@ export const listArticle = (params: any) => {
     params: params
   })
 }
+
+export const queryArticle = (id: string) => {
+  return request({
+    url: '/article/' + id,
+    method: 'get'
+  })
+}
+
 export const addArticle = (params: any) => {
   return request({
     url: '/article/add',

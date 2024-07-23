@@ -72,7 +72,7 @@ const handleAdd = () => {
 }
 
 const handleUpdate = (data: Article) => {
-  proxy.$refs.addModelRef.open({ ...data })
+  router.push({ name: 'articleEdit', params: { id: data.id } })
 }
 
 const handleDelete = (data: Article | null = null) => {
