@@ -66,8 +66,22 @@ export class ArticleService {
     return article;
   }
 
-  update(id: number, updateArticleDto: UpdateArticleDto) {
-    return `This action updates a #${id} article`;
+  async update(
+    id: number,
+    updateArticleDto: UpdateArticleDto,
+  ): Promise<Article | null> {
+    // 首先找到要修改的文章
+    const existingArticle = await this.articleRepository.findOneBy({ id });
+
+    if (!existingArticle) {
+      return null; // 如果找不到分类，返回 null
+    }
+
+    // 使用 DTO 更新分类的属性
+    this.articleRepository.merge(existingArticle, updateArticleDto);
+
+    // 保存更新后的分类
+    return await this.articleRepository.save(existingArticle);
   }
 
   /**批量删除 */

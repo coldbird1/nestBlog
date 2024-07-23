@@ -55,9 +55,20 @@ export class ArticleController {
     return this.articleService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {
-    return this.articleService.update(+id, updateArticleDto);
+  @Patch('update/:id')
+  async update(
+    @Param('id') id: number,
+    @Body() updateArticleDto: UpdateArticleDto,
+  ) {
+    // const { categoryId, userId, ...restOfProperties } = updateArticleDto; // 解构并排除categoryId
+    const category = await this.categoryService.findOne(
+      updateArticleDto.categoryId,
+    );
+    const article = {
+      ...updateArticleDto,
+      category,
+    };
+    return this.articleService.update(id, article);
   }
 
   @Delete('delete')

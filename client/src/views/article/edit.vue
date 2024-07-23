@@ -11,7 +11,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="" prop="content">
-        <div id="tinyEdit"></div>
+        <div id="tinyEditer"></div>
       </el-form-item>
       <div class="flex justify-center  items-center">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -26,7 +26,7 @@ import { getCurrentInstance, ref, computed, onMounted, onBeforeUnmount } from 'v
 import { useRoute, useRouter } from 'vue-router'
 import tinymce from 'tinymce'
 import { listCategory } from "@/api/category";
-import { addArticle, queryArticle } from "@/api/article";
+import { addArticle, queryArticle, updateArticle } from "@/api/article";
 import type { Article } from './types'
 import type { Category } from '@/views/category/types'
 const route = useRoute()
@@ -56,10 +56,10 @@ const submitForm = () => {
   proxy.$refs['formRef'].validate((valid: boolean) => {
     if (valid) {
       if (form.value.id != null) {
-        // updateCategory(form.value).then((response) => {
-        //   proxy.$modal.msgSuccess('修改成功')
-        //   emit('submit')
-        // })
+        updateArticle(form.value).then((response) => {
+          proxy.$modal.msgSuccess('修改成功')
+          router.replace('/article')
+        })
       } else {
         console.log(form.value);
         addArticle(form.value).then((response) => {
@@ -72,12 +72,11 @@ const submitForm = () => {
 }
 
 const onClose = () => {
-  //返回上一个页面
   router.go(-1)
 }
 
 const initObj = {
-  selector: '#tinyEdit',
+  selector: '#tinyEditer',
   license_key: 'gpl',
   statusbar: false,
   menubar: true,
@@ -85,7 +84,7 @@ const initObj = {
   skin: 'oxide-dark',
   language: 'zh_CN',
   plugins: "image code table",
-  height: 610,
+  height: 470,
   width: "100%"
 }
 
@@ -94,7 +93,9 @@ onMounted(async () => {
   const articleId: string = route.params.id as string
   if (articleId) {
     isEdit.value = true
-    const data = await queryArticle(articleId)
+    const { data } = await queryArticle(articleId)
+    form.value = data
+    tinymce.get('tinyEditer').setContent(data.content);
   }
 })
 
