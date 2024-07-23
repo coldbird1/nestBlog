@@ -10,25 +10,39 @@ import {
   Req,
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
+import { CategoryService } from 'src/category/category.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { Public } from 'src/common/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Request } from 'express';
+import { UserService } from 'src/auth/user.service';
 @Controller('article')
 @Public()
 export class ArticleController {
-  constructor(private readonly articleService: ArticleService) {}
+  constructor(
+    private readonly articleService: ArticleService,
+    private readonly categoryService: CategoryService,
+    private readonly userService: UserService,
+  ) {}
 
   @Post('add')
-  create(@Body() createArticleDto: CreateArticleDto, @Req() request: Request) {
-    const mergeDto = {
+  async create(
+    @Body() createArticleDto: CreateArticleDto,
+    @Req() request: Request,
+  ) {
+    const category = await this.categoryService.findOne(
+      createArticleDto.categoryId,
+    );
+    const user = await this.userService.findOne(request.user?.userid);
+    const article = {
       ...createArticleDto,
       updatedBy: request.user?.username,
       createdBy: request.user?.username,
-      author: request.user?.userid,
+      category,
+      user,
     };
-    return this.articleService.create(mergeDto);
+    return this.articleService.create(article);
   }
 
   @Get('list')
@@ -46,8 +60,8 @@ export class ArticleController {
     return this.articleService.update(+id, updateArticleDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.articleService.remove(+id);
+  @Delete('delete')
+  batchDelete(@Body('ids') ids: number[]) {
+    return this.articleService.remove(ids);
   }
 }

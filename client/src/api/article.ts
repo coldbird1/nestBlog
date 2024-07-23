@@ -15,17 +15,17 @@ export const addArticle = (params: any) => {
   })
 }
 
-export const updateCategory = (params: any) => {
+export const updateArticle = (params: any) => {
   return request({
-    url: '/category/update/' + params.id,
+    url: '/article/update/' + params.id,
     method: 'Patch',
     data: params
   })
 }
 
-export const delCategory = (params: any) => {
+export const delArticle = (params: any) => {
   return request({
-    url: '/category/deleteBatch',
+    url: '/article/delete',
     method: 'delete',
     data: params
   })

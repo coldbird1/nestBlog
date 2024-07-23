@@ -12,7 +12,7 @@ export class User {
   @Column()
   password: string;
 
-  //分类下的文章
-  @OneToMany((type) => Article, (article) => article.category)
+  //用户下的文章
+  @OneToMany((type) => Article, (article) => article.user)
   articles: Article[];
 }

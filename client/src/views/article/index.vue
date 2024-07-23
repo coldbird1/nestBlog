@@ -38,7 +38,7 @@
 <script lang="ts" setup>
 import { ref, computed, getCurrentInstance } from 'vue'
 import { ElTable } from 'element-plus'
-import { listArticle, delCategory } from '@/api/article'
+import { listArticle, delArticle } from '@/api/article'
 import { useRouter } from 'vue-router'
 import type { Article } from './types'
 
@@ -78,7 +78,7 @@ const handleUpdate = (data: Article) => {
 const handleDelete = (data: Article | null = null) => {
   let selectIds = data ? [data?.id] : ids.value
   proxy.$modal.confirm('是否确认删除选中数据项？').then(function () {
-    delCategory({ ids: selectIds }).then(() => {
+    delArticle({ ids: selectIds }).then(() => {
       getList();
       proxy.$modal.msgSuccess("删除成功");
     }).catch(() => { });

@@ -30,6 +30,11 @@ export class CategoryService {
     };
   }
 
+  async findOne(id: number): Promise<Category | undefined> {
+    // 使用findOneBy方法查找分类
+    return await this.categoryRepository.findOneBy({ id });
+  }
+
   async create(createCategoryDto: CreateCategoryDto) {
     // 创建一个新的分类实例，并使用传入的 DTO 数据填充它
     const newCategory = this.categoryRepository.create(createCategoryDto);

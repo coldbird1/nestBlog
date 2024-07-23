@@ -24,6 +24,11 @@ export class CategoryController {
     return this.categoryService.findAll(paginationQueryDto);
   }
 
+  @Get(':id')
+  findOne(@Param('id') id: number) {
+    return this.categoryService.findOne(id);
+  }
+
   @Post('add')
   create(
     @Body() createCategoryDto: CreateCategoryDto,

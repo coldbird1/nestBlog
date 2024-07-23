@@ -1,18 +1,32 @@
-import { IsString, IsOptional, IsNumber } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsNumber,
+  IsNotEmpty,
+  ValidateNested,
+} from 'class-validator';
+import { PartialType } from '@nestjs/mapped-types';
+import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import { User } from 'src/auth/entities/user.entity';
+import { Category } from 'src/category/entities/category.entity';
 
 export class CreateArticleDto {
-  //文章标题
+  @ApiProperty({ description: '文章标题', example: 'My First Article' })
   @IsString()
-  @IsOptional()
-  title?: string;
+  @IsNotEmpty()
+  title: string;
 
-  //文章内容
+  @ApiProperty({
+    description: '文章内容',
+    example: 'This is the content of my first article.',
+  })
   @IsString()
-  @IsOptional()
-  content?: string;
+  @IsNotEmpty()
+  content: string;
 
-  // 文章分类ID
+  @ApiProperty({ type: () => Category, description: '文章分类' })
   @IsNumber()
-  @IsOptional()
-  categoryId?: number;
+  @IsNotEmpty()
+  categoryId: number;
 }

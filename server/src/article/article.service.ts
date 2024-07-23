@@ -13,10 +13,10 @@ export class ArticleService {
   ) {}
   async create(createArticleDto: CreateArticleDto) {
     // 创建一个新的分类实例，并使用传入的 DTO 数据填充它
-    const newCategory = this.articleRepository.create(createArticleDto);
+    const newArticle = this.articleRepository.create(createArticleDto);
 
     // 保存新的分类到数据库
-    return await this.articleRepository.save(newCategory);
+    return await this.articleRepository.save(newArticle);
   }
 
   async findAll(paginationQueryDto: PaginationQueryDto) {
@@ -37,15 +37,17 @@ export class ArticleService {
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} article`;
+  async findOne(id: number): Promise<Article | undefined> {
+    // 使用findOneBy方法查找分类
+    return await this.articleRepository.findOneBy({ id });
   }
 
   update(id: number, updateArticleDto: UpdateArticleDto) {
     return `This action updates a #${id} article`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} article`;
+  /**批量删除 */
+  async remove(ids: number[]): Promise<DeleteResult> {
+    return await this.articleRepository.delete({ id: In(ids) });
   }
 }

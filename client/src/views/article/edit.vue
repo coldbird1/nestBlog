@@ -5,7 +5,7 @@
       <el-form-item label="标题" prop="title" class="flex justify-center">
         <el-input v-model="form.title" placeholder="请输入标题" clearable />
       </el-form-item>
-      <el-form-item label="分类" prop="categoryId">
+      <el-form-item label="分类" prop="category">
         <el-select v-model="form.categoryId" plplaceholder="请选择分类">
           <el-option v-for="item in categoryOptions" :key="item.id" :label="item.name" :value="item.id" />
         </el-select>

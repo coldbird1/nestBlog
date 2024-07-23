@@ -7,7 +7,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { User } from 'src/auth/entities/auth.entity';
+import { User } from 'src/auth/entities/user.entity';
 import { Category } from 'src/category/entities/category.entity';
 
 @Entity()
@@ -22,8 +22,8 @@ export class Article {
   content: string;
 
   @ManyToOne((type) => User, (user) => user.articles)
-  @JoinColumn({ name: 'author_id' })
-  author: User;
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 
   @ManyToOne((type) => Category, (category) => category.articles)
   @JoinColumn({ name: 'category_id' })
