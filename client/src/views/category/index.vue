@@ -5,7 +5,7 @@
         <el-button type="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="success" plain icon="Edit" @click="handleUpdate" :disabled="!isSingle">修改</el-button>
+        <el-button type="success" plain icon="Edit" @click="handleUpdate()" :disabled="!isSingle">修改</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="danger" plain icon="Delete" @click="handleDelete()" :disabled="!isMultiple">删除</el-button>
@@ -52,8 +52,8 @@ const queryParams = ref({
 })
 const total = ref(0)
 
-
-const tableData = ref<Category[]>()
+const tableLoading = ref(false)
+const tableData = ref<Category[]>([])
 const tableRef = ref<InstanceType<typeof ElTable>>()
 const ids = ref<number[]>([])
 const isMultiple = computed(() => ids.value.length > 0)
@@ -64,17 +64,23 @@ const handleSelectionChange = (val: Category[]) => {
 }
 
 const getList = async () => {
-  const { data } = await listCategory(queryParams.value)
-  tableData.value = data.rows
-  total.value = data.total
+  try {
+    tableLoading.value = true
+    const { data } = await listCategory(queryParams.value)
+    tableData.value = data.rows
+    total.value = data.total
+  } finally {
+    tableLoading.value = false
+  }
 }
 
 const handleAdd = () => {
   proxy.$refs.addModelRef.open()
 }
 
-const handleUpdate = (data: Category) => {
-  proxy.$refs.addModelRef.open({ ...data })
+const handleUpdate = (data: Category | null = null) => {
+  const props = data ? { ...data } : { ...tableData.value.find(item => item.id === ids.value[0]) }
+  proxy.$refs.addModelRef.open(props)
 }
 
 const handleDelete = (data: Category | null = null) => {

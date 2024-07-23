@@ -5,13 +5,14 @@
         <el-button type="primary" plain icon="Plus" @click="handleAdd">新增</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="success" plain icon="Edit" @click="handleUpdate" :disabled="!isSingle">修改</el-button>
+        <el-button type="success" plain icon="Edit" @click="handleUpdate()" :disabled="!isSingle">修改</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="danger" plain icon="Delete" @click="handleDelete()" :disabled="!isMultiple">删除</el-button>
       </el-col>
     </el-row>
-    <el-table ref="tableRef" :data="tableData" style="width: 100%" stripe @selection-change="handleSelectionChange">
+    <el-table v-loading="tableLoading" ref="tableRef" :data="tableData" style="width: 100%" stripe
+      @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align />
       <el-table-column prop="title" label="标题" align="center" show-overflow-tooltip />
       <el-table-column prop="categoryName" label="分类" align="center" show-overflow-tooltip />
@@ -51,6 +52,7 @@ const queryParams = ref({
 })
 const total = ref(0)
 
+const tableLoading = ref(false)
 const tableData = ref<Article[]>()
 const tableRef = ref<InstanceType<typeof ElTable>>()
 const ids = ref<number[]>([])
@@ -62,17 +64,23 @@ const handleSelectionChange = (val: Article[]) => {
 }
 
 const getList = async () => {
-  const { data } = await listArticle(queryParams.value)
-  tableData.value = data.rows
-  total.value = data.total
+  try {
+    tableLoading.value = true
+    const { data } = await listArticle(queryParams.value)
+    tableData.value = data.rows
+    total.value = data.total
+  } finally {
+    tableLoading.value = false
+  }
 }
 
 const handleAdd = () => {
   router.push({ path: '/article/edit' })
 }
 
-const handleUpdate = (data: Article) => {
-  router.push({ name: 'articleEdit', params: { id: data.id } })
+const handleUpdate = (data: Article | null = null) => {
+  const id = data ? data.id : ids.value[0]
+  router.push({ name: 'articleEdit', params: { id } })
 }
 
 const handleDelete = (data: Article | null = null) => {

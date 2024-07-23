@@ -1,5 +1,5 @@
 <template>
-  <div class="mainContainer">
+  <div class="mainContainer" v-loading="loading">
     <div class=" mb-20px">{{ title }}</div>
     <el-form :model="form" :rules="rules" ref="formRef" class="flex flex-col ">
       <el-form-item label="标题" prop="title" class="flex justify-center">
@@ -32,8 +32,9 @@ import type { Category } from '@/views/category/types'
 const route = useRoute()
 const router = useRouter()
 
-
 const { proxy } = getCurrentInstance()
+
+const loading = ref(false)
 const isEdit = ref(false)
 const title = computed(() => isEdit.value ? '修改文章' : '新增文章')
 const rules = {
@@ -41,15 +42,8 @@ const rules = {
   categoryId: [{ required: true, message: '分类不能为空', trigger: 'change' }],
   content: [{ required: true, message: '文章内容不能为空', trigger: 'blur' }],
 }
-
-const emit = defineEmits(['submit'])
 const form = ref<Article>({})
 const categoryOptions = ref<Category[]>([])
-const open = async (data: Article = {}) => {
-  console.log(data);
-  form.value = data
-  isEdit.value = data.id != null
-}
 
 const submitForm = () => {
   form.value.content = tinymce.activeEditor?.getContent()
@@ -76,6 +70,7 @@ const onClose = () => {
 }
 
 const initObj = {
+  base_url: '/',
   selector: '#tinyEditer',
   license_key: 'gpl',
   statusbar: false,
@@ -89,27 +84,30 @@ const initObj = {
 }
 
 onMounted(async () => {
-  await tinymce.init(initObj)
-  const articleId: string = route.params.id as string
-  if (articleId) {
-    isEdit.value = true
-    const { data } = await queryArticle(articleId)
-    form.value = data
-    tinymce.get('tinyEditer').setContent(data.content);
+  try {
+    loading.value = true
+    await tinymce.init(initObj)
+    const articleId: string = route.params.id as string
+    if (articleId) {
+      isEdit.value = true
+      const { data } = await queryArticle(articleId)
+      form.value = data
+      tinymce.get('tinyEditer')!.setContent(data.content);
+    }
+  } finally {
+    loading.value = false
   }
 })
 
 onBeforeUnmount(() => {
-  tinymce.remove();
+  tinymce.remove('#tinyEditer');
 });
 
 listCategory({}).then(res => {
   categoryOptions.value = res.data.rows
 })
 
-defineExpose({
-  open
-})
+
 </script>
 
 <style scoped lang="scss">
