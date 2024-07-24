@@ -18,7 +18,7 @@ export class Article {
   @Column({ length: 255 })
   title: string;
 
-  @Column('text')
+  @Column('mediumtext')
   content: string;
 
   @ManyToOne((type) => User, (user) => user.articles)

@@ -5,9 +5,12 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { WrapResponseInterceptor } from './common/interceptors/wrap-response.interceptor';
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as bodyParser from 'body-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { abortOnError: false });
+  app.use(bodyParser.json({ limit: '20mb' }));
+  app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }));
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

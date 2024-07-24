@@ -1,10 +1,22 @@
 version: '3'
 
 services:
-  db:
-    image: postgres
-    restart: always
+  nest-app:
+    image: nest-blog-server-image
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - '5432:5432'
+      - '3000:3000'
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
     environment:
-      POSTGRES_PASSWORD: pass123
+      - NODE_ENV=production
+      - DATABASE_URL=your-database-url
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

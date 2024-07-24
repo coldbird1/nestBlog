@@ -18,7 +18,6 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Request } from 'express';
 import { UserService } from 'src/auth/user.service';
 @Controller('article')
-@Public()
 export class ArticleController {
   constructor(
     private readonly articleService: ArticleService,
@@ -46,11 +45,13 @@ export class ArticleController {
   }
 
   @Get('list')
+  @Public()
   findAll(@Query() paginationQueryDto: PaginationQueryDto) {
     return this.articleService.findAll(paginationQueryDto);
   }
 
   @Get(':id')
+  @Public()
   findOne(@Param('id') id: string) {
     return this.articleService.findOne(+id);
   }

@@ -48,20 +48,26 @@ const categoryOptions = ref<Category[]>([])
 const submitForm = () => {
   form.value.content = tinymce.activeEditor?.getContent()
   proxy.$refs['formRef'].validate((valid: boolean) => {
-    if (valid) {
-      if (form.value.id != null) {
-        updateArticle(form.value).then((response) => {
-          proxy.$modal.msgSuccess('修改成功')
-          router.replace('/article')
-        })
-      } else {
-        console.log(form.value);
-        addArticle(form.value).then((response) => {
-          proxy.$modal.msgSuccess('新增成功')
-          router.replace('/article')
-        })
+    try {
+      if (valid) {
+        loading.value = true
+        if (form.value.id != null) {
+          updateArticle(form.value).then((response) => {
+            proxy.$modal.msgSuccess('修改成功')
+            router.replace('/article')
+          })
+        } else {
+          console.log(form.value);
+          addArticle(form.value).then((response) => {
+            proxy.$modal.msgSuccess('新增成功')
+            router.replace('/article')
+          })
+        }
       }
+    } finally {
+      loading.value = false
     }
+
   })
 }
 
